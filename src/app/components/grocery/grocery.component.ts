@@ -2,6 +2,7 @@ import { Component, Signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Grocery } from '../../../models/grocery.model';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
 
 
 @Component({
@@ -14,6 +15,10 @@ import { CommonModule } from '@angular/common';
 export class GroceryComponent {
 
   groceries$?:Observable<Grocery[]>;
+
+  constructor(private store:Store<{groceries:Grocery[]}>) {
+    this.groceries$ = store.select('groceries');
+  }
 
 
 
@@ -28,6 +33,7 @@ export class GroceryComponent {
       name:item.name,
       quantity:1
     }
+    this.store.dispatch({type: '[Grocery] Add', payload})
 
 
   }
